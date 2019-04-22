@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:og="http://ogp.me/ns#">
+    <head>
+        <!--<script async src="https://www.googletagmanager.com/gtag/js?id=UA-138713106-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-138713106-1');
+        </script>-->
+
+        <link rel="icon" href="favicon.ico" type="image/x-icon" />
+        <title>{{#if meta.title}}{{meta.title}} - {{/if}}Bradley Gunn</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <meta name="description" content="{{meta.description}}">
+        <meta name="keywords" content="Bradley Gunn, Bradley Gunn Raver, Bradley Gunn Sailor, Raver, Sailor">
+        <meta name="author" content="Bradley Gunn">
+
+        <meta property="og:title" content="{{#if meta.title}}{{meta.title}} - {{/if}}Bradley Gunn" />
+        <meta property="og:description" content="{{meta.description}}" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Bradley Gunn" />
+        <meta property="og:url" content="https://bradleygunn.net" />
+        <meta property="og:locale" content="en_GB" />
+        <meta property="og:image" content="{{meta.image}}" />
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@bradgunnraver" />
+        <meta name="twitter:title" content="{{#if meta.title}}{{meta.title}} - {{/if}}Bradley Gunn" />
+        <meta name="twitter:description" content="{{meta.description}}" />
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </head>
+    <body style="padding-top: 50px">
+        <nav class="nav fixed-top bg-light">
+            <a class="nav-link text-dark" href="/">Bradley Gunn</a>
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Episodes</a>
+                <div class="dropdown-menu rounded-0 bg-light">
+                    <a class="dropdown-item text-dark" href="/bgr">BGR</a>
+                    <a class="dropdown-item text-dark" href="/bgs">BGS</a>
+                </div>
+            </div>
+            <a class="nav-link text-dark" href="/news">News</a>
+        </nav>
+        <div class="container">
+            {{{body}}}
+        </div>
+    </body>
+</html>
