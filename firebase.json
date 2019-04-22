@@ -1,0 +1,33 @@
+{
+  "hosting": {
+    "public": "public",
+    "rewrites": [
+      {
+        "source": "**/favicon.ico",
+        "destination": "/favicon.ico"
+      },
+      {
+        "source": "**/js/bootstrap/bootstrap-native-v4.min.js",
+        "destination": "/js/bootstrap/bootstrap-native-v4.min.js"
+      },
+      {
+        "source": "**/js/bootstrap/polyfill.min.js",
+        "destination": "/js/bootstrap/polyfill.min.js"
+      },
+      {
+        "source": "**",
+        "function": "app"
+      }
+    ],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+  "functions": {
+    "predeploy": [
+      "npm --prefix \"$RESOURCE_DIR\" run lint"
+    ]
+  }
+}
