@@ -2,6 +2,10 @@ const functions = require("firebase-functions");
 const firebase = require("firebase-admin");
 const express = require("express");
 const hbs = require("express-hbs");
+const graphQl = require("graphql");
+const graphQlTools = require("graphql-tools");
+const apollo = require("apollo-server-express");
+const bodyParser = require("body-parser");
 const controllers = require("./controllers");
 
 // // Create and Deploy Your First Cloud Functions
