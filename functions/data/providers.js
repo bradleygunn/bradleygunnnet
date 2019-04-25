@@ -138,3 +138,7 @@ class PostProvider extends BaseProvider {
 exports.postProvider = function(store) {
     return new PostProvider(store);
 }
+
+exports.provider = function(store) {
+    return new BaseProvider(store);
+}
