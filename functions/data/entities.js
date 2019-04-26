@@ -8,7 +8,7 @@ class Post {
             .replace(new RegExp(/link\((.*?)\)/, 'g'), `<a href="$1" target="_blank">$1</a>`)
             .replace(new RegExp(/\\n/, 'g'), "<br />")
             .replace(new RegExp(/img\((.*?)\)/, 'g'), `<img src="$1" class="img-fluid" />`);
-        this.date = utils.toDate(timestamp);
+        this.date = utils.toDate(timestamp).toDateString();
     }
 }
 

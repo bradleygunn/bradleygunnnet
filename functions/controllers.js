@@ -1,14 +1,6 @@
-const providers = require("./data/providers");
+const graph = require("./graph/graph");
 
 class Controller {
-    /**
-     * 
-     * @param {FirebaseFirestore.Firestore} store 
-     */
-    constructor(store) {
-        this.postProvider = providers.postProvider(store);
-    }
-
     /**
      * @description sets up cache control rules for response
      * @param {Response} response 
@@ -94,7 +86,7 @@ class Controller {
     news(response) {
         console.log("running news page");
 
-        this.postProvider.getPosts(10).then(posts => {
+        graph.query("{ posts { id title text date } }").then(posts => {
             console.log("rendering result to html");
             return response.render("posts", { 
                 posts,
@@ -112,9 +104,9 @@ class Controller {
     newsPost(response, postId) {
         console.log(`running news post page for postId: ${postId}`);
 
-        this.postProvider.getPost(postId).then(post => {
+        graph.query(`{ post(id: '${postId}') { id title text date } }`).then(post => {
             console.log("rendering result to html");
-            return response.render("post", { 
+            return response.render("posts", { 
                 post,
                 meta: {
                     title: post.Title,
@@ -123,8 +115,7 @@ class Controller {
                 }
             });
         }).catch(error => {
-            console.log(error);
-            return response.status(404).send(error);
+            return response.status(500).send(error);
         });
     }
 }
@@ -133,6 +124,6 @@ class Controller {
  * @param {FirebaseFirestore.Firestore} store
  * @returns {Controller} controller
  */
-exports.controller = function(store) {
-    return new Controller(store);
+exports.controller = function() {
+    return new Controller();
 }
