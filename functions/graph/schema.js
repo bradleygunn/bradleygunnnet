@@ -1,6 +1,7 @@
-var { buildSchema } = require('graphql');
+const graphQlTools = require("graphql-tools");
+const resolver = require("./executor");
 
-exports.schema = buildSchema(`
+const schema = `
 type Post {
     id: String
     title: String
@@ -37,4 +38,9 @@ type Query {
     images: [Image]
     topics: [Topic]
 }
-`);
+`;
+
+export default makeExecutableSchema({
+    typeDefs: schema,
+    resolver
+});
