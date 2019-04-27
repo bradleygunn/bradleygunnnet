@@ -2,12 +2,12 @@ const entities = require("./data/entities");
 
 exports.resolver = {
   Query: {
-    posts(obj, args, { provider }, info) {
+    posts: (obj, args, { provider }, info) => {
       return provider.query(store => store.collection("posts")).then(dataObjects => {
           return dataObjects.map(dataObject => entities.post(dataObject));
       });
     },
-    post(obj, { id }, { provider }, info) {
+    post: (obj, { id }, { provider }, info) => {
       return provider.query(store => store.collection("posts").doc(id)).then(dataObjects => {
         if (dataObjects.length > 0) {
           const dataObject = dataObjects[0];
@@ -17,27 +17,27 @@ exports.resolver = {
         return null;
       });
     },
-    videos(obj, args, { provider }, info) {
+    videos: (obj, args, { provider }, info) => {
       return provider.query(store => store.collection("videos")).then(dataObjects => {
           return dataObjects.map(dataObject => entities.video(dataObject));
       });
     },
-    links(obj, args, { provider }, info) {
+    links: (obj, args, { provider }, info) => {
       return provider.query(store => store.collection("links")).then(dataObjects => {
         return dataObjects.map(dataObject => entities.link(dataObject));
       });
     },
-    images(obj, args, { provider }, info) {
+    images: (obj, args, { provider }, info) => {
       return provider.query(store => store.collection("images")).then(dataObjects => {
         return dataObjects.map(dataObject => entities.image(dataObject));
       });
     },
-    topics(obj, args, { provider }, info) {
+    topics: (obj, args, { provider }, info) => {
       return provider.query(store => store.collection("topics")).then(dataObjects => {
         return dataObjects.map(dataObject => entities.topic(dataObject));
       });
     },
-    topic(obj, { name }, { provider }, info) {
+    topic: (obj, { name }, { provider }, info) => {
       return provider.query(store => store.collection("topics").where("name", "==", name)).then(dataObjects => {
         if (dataObjects.length > 0) {
           const dataObject = dataObjects[0];
@@ -50,15 +50,15 @@ exports.resolver = {
     }
   },
   Topic: {
-    videos(obj, args, { provider }, info) {
+    videos: (obj, args, { provider }, info) => {
       return provider.query(store => store.collection("videos").where("topic", "==", topic.name)).then(dataObjects => {
         return dataObjects.map(dataObject => entities.video(dataObject));
       });
     },
-    links(obj, args, { provider }, info) {
+    links: (obj, args, { provider }, info) => {
       return provider.query(store => store.collection("links").where("topic", "==", topic.name)).then(dataObjects => {
         return dataObjects.map(dataObject => entities.link(dataObject));
       });
     }
-  }
+  },
 };
