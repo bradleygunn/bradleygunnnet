@@ -27,16 +27,17 @@ type Link {
 type Topic {
     id: String
     name: String
-    videos(): [Video]
-    links(): [Link]
+    videos: [Video]
+    links: [Link]
 }
 type Query {
-    posts(): [Post]
+    posts: [Post]
     post(id: String): Post
-    videos(): [Video]
-    links(): [Link]
-    images(): [Image]
-    topics(): [Topic]
+    videos: [Video]
+    links: [Link]
+    images: [Image]
+    topics: [Topic]
+    topic(name: String): Topic
 }
 `;
 
