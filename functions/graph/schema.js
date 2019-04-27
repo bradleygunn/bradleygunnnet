@@ -1,5 +1,5 @@
-const graphQlTools = require("graphql-tools");
-const resolver = require("./executor");
+const { makeExecutableSchema } = require("graphql-tools");
+const { resolver } = require("./resolver");
 
 const schema = `
 type Post {
@@ -27,20 +27,20 @@ type Link {
 type Topic {
     id: String
     name: String
-    videos: [Video]
-    links: [Link]
+    videos(): [Video]
+    links(): [Link]
 }
 type Query {
-    posts: [Post]
-    post(id: String!): Post
-    videos: [Video]
-    links: [Link]
-    images: [Image]
-    topics: [Topic]
+    posts(): [Post]
+    post(id: String): Post
+    videos(): [Video]
+    links(): [Link]
+    images(): [Image]
+    topics(): [Topic]
 }
 `;
 
-export default makeExecutableSchema({
+exports.schema = makeExecutableSchema({
     typeDefs: schema,
     resolver
 });

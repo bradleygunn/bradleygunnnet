@@ -1,9 +1,9 @@
 class Provider {
-    constructor(firestore) {
-        this.firestore = firestore;
+    constructor(store) {
+        this.store = store;
     }
 
-    extractData = function(snapshot) {
+    extractData(snapshot) {
         const data = [];
     
         //if the snapshot is a QueryShapshot it will have an empty flag
@@ -27,14 +27,14 @@ class Provider {
     
         //always returns an array as this makes it easier to interact with the result
         return data;
-    };
+    }
     
-    query = function(queryFn) {
+    query(queryFn) {
         return new Promise((resolve, reject) => {
             console.log(`running query: ${queryFn}`);
     
-            queryFn(this.firestore).get().then(snapshot => {
-                const result = extractData(snapshot);
+            queryFn(this.store).get().then(snapshot => {
+                const result = this.extractData(snapshot);
     
                 console.log(`query executed with ${result.length} results`);
     
@@ -42,7 +42,9 @@ class Provider {
                 return result;
             }).catch(error => reject(error));
         });
-    };
-};
+    }
+}
 
-exports.createProvider = (firestore) => new Provider(firestore);
+exports.initProvider = function(store) {
+    return new Provider(store);
+}

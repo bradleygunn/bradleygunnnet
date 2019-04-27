@@ -1,28 +1,16 @@
+const firebase = require("firebase-admin");
 const functions = require("firebase-functions");
-const express = require("express");
-const hbs = require("express-hbs");
-const controllers = require("./controllers");
+const { initApp } = require("./app/init");
+const { initGraph } = require("./graph/init");
 
-//create controller
-const controller = controllers.controller();
+//init firebase
+firebase.initializeApp(functions.config().firebase);
 
-//use express server
-const app = express();
+const app = initApp(firebase.firestore());
 
-//setup view engine
-app.engine('hbs', hbs.express3({  
-    defaultLayout: './views/layouts/default.hbs',
-    layoutsDir: './views/layouts'
-}));
-app.set("views", "./views");
-app.set("view engine", "hbs");
+const graph = initGraph(firebase.firestore());
 
-//setup routes
-app.get("/", (request, response) => controller.index(response));
-app.get("/bgr", (request, response) => controller.bgr(response));
-app.get("/bgs", (request, response) => controller.bgs(response));
-app.get("/news", (request, response) => controller.news(response));
-app.get("/news/:id", (request, response) => controller.newsPost(response, request.params.id));
+exports.graph = functions.https.onRequest(graph);
 
 exports.app = functions
     .region('us-central1')

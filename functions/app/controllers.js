@@ -1,6 +1,9 @@
-const graph = require("./graph/graph");
-
 class Controller {
+    constructor(resolver, provider) {
+        this.resolver = resolver;
+        this.provider = provider;
+    }
+
     /**
      * @description sets up cache control rules for response
      * @param {Response} response 
@@ -85,8 +88,11 @@ class Controller {
      */
     news(response) {
         console.log("running news page");
+        const providerArg = function(p) { return { provider: p } }(this.provider);
 
-        graph.query("{ posts { id title text date } }").then(posts => {
+        console.log(`parsing ${providerArg.provider} to resolver`);
+
+        this.resolver.Query.posts(null, null, providerArg, null).then(posts => {
             console.log("rendering result to html");
             return response.render("posts", { 
                 posts,
@@ -103,8 +109,9 @@ class Controller {
 
     newsPost(response, postId) {
         console.log(`running news post page for postId: ${postId}`);
+        const providerArg = function(p) { return { p } }(this.provider);
 
-        graph.query(`{ post(id: '${postId}') { id title text date } }`).then(post => {
+        this.resolver.Query.postId(null, { postId }, providerArg, null).then(post => {
             console.log("rendering result to html");
             return response.render("posts", { 
                 post,
@@ -121,9 +128,8 @@ class Controller {
 }
 
 /**
- * @param {FirebaseFirestore.Firestore} store
  * @returns {Controller} controller
  */
-exports.controller = function() {
-    return new Controller();
+exports.controller = function(resolver, provider) {
+    return new Controller(resolver, provider);
 }

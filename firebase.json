@@ -7,12 +7,12 @@
         "destination": "/favicon.ico"
       },
       {
-        "source": "**/js/bootstrap/bootstrap-native-v4.min.js",
-        "destination": "/js/bootstrap/bootstrap-native-v4.min.js"
+        "source": "/graph",
+        "function": "graph"
       },
       {
-        "source": "**/js/bootstrap/polyfill.min.js",
-        "destination": "/js/bootstrap/polyfill.min.js"
+        "source": "/graph/**",
+        "function": "graph"
       },
       {
         "source": "**",
