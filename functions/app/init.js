@@ -1,16 +1,10 @@
 const express = require("express");
 const hbs = require("express-hbs");
 const controllers = require("./controllers");
-const { resolver } = require("../graph/resolver");
-const p = require("../graph/data/provider");  
 
 exports.initApp = function(firestore) {
-    const provider = p.initProvider(firestore);
-
-    console.log(`provider is ${provider}`);
-
     //create controller
-    const controller = controllers.controller(resolver, provider);
+    const controller = controllers.controller();
 
     //use express server
     const app = express();
