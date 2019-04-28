@@ -22,10 +22,11 @@ class Video {
 }
 
 class Image {
-    constructor(id, name, url) {
+    constructor(id, name, url, group) {
         this.id = id;
         this.name = name;
         this.url = url;
+        this.group = group;
     }
 }
 
@@ -53,7 +54,11 @@ exports.video = function(dataObject) {
 }
 
 exports.image = function(dataObject) {
-    return new Image(dataObject.id, dataObject.data.name, dataObject.data.url);
+    if (dataObject.data.group !== undefined) {
+        return new Image(dataObject.id, dataObject.data.name, dataObject.data.url, dataObject.data.group);
+    } else {
+        return new Image(dataObject.id, dataObject.data.name, dataObject.data.url, null);
+    }
 }
 
 exports.link = function(dataObject) {

@@ -1,3 +1,5 @@
+const guid = require('uuid/v4');
+
 class Provider {
     constructor(store) {
         this.store = store;
@@ -31,16 +33,21 @@ class Provider {
     
     query(queryFn) {
         return new Promise((resolve, reject) => {
-            console.log(`running query: ${queryFn}`);
+            const queryId = guid();
+            console.log(`[DATA PROVIDER] intialising new query ${queryId}`);
+            console.log(`[DATA PROVIDER] running query ${queryId}: ${queryFn}`);
     
             queryFn(this.store).get().then(snapshot => {
                 const result = this.extractData(snapshot);
     
-                console.log(`query executed with ${result.length} results`);
+                console.log(`[DATA PROVIDER] query ${queryId} executed with ${result.length} results`);
     
                 resolve(result)
                 return result;
-            }).catch(error => reject(error));
+            }).catch(error => {
+                console.log(`[DATA PROVIDER] query ${queryId} failed: ${error.message}`);
+                reject(error)
+            });
         });
     }
 }
