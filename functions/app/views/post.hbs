@@ -1,0 +1,31 @@
+<div id="post">
+    <div class="text-center">
+        <i class="fas fa-3x fa-circle-notch fa-spin"></i>
+    </div>
+</div>
+<script>
+    queryGraph(
+        `{
+            post(id: "{{postId}}") {
+                title
+                text
+                date
+            }
+        }`
+    ).then(result => {
+        if (result.post == null) {
+            window.location.href = "/news";
+            return;
+        }
+
+        document.getElementById("post").innerHTML = `<div class="card p-3 border-0">
+            <div class="text-center mb-5">
+                <h1 class="display-3">${result.post.title}</h1>
+                <h6 class="card-subtitle mb-2 text-muted">${result.post.date}</h6>
+            </div>
+            <p class="card-text">${result.post.text}</p>
+        </div>`;
+    }).catch(error => {
+        document.getElementById("post").innerHTML = `<div class="alert alert-danger"><strong>Error:</strong> ${error}</div>`;
+    });
+</script>

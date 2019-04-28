@@ -1,0 +1,31 @@
+<div class="text-center">
+    <h1 class="display-3">Bradley Gunn News</h1>
+</div>
+<div id="posts">
+    <div class="text-center">
+        <i class="fas fa-3x fa-circle-notch fa-spin"></i>
+    </div>
+</div>
+<script>
+    queryGraph(
+        `{
+            posts {
+                id
+                title
+                text
+                date
+            }
+        }`
+    ).then(result => {
+        const posts = result.posts.map(post =>
+        `<div class="card mb-3 p-3 border-0">
+            <h5 class="card-title"><a href="/news/${post.id}">${post.title}</a></h5>
+            <h6 class="card-subtitle mb-2 text-muted">${post.date}</h6>
+            <p class="card-text">${post.text}</p>
+        </div>`);
+
+        document.getElementById("posts").innerHTML = `${posts.join()}`;
+    }).catch(error => {
+        document.getElementById("post").innerHTML = `<div class="alert alert-danger"><strong>Error:</strong> ${error}</div>`;
+    });
+</script>

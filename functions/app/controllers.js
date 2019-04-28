@@ -1,14 +1,4 @@
-const providers = require("./data/providers");
-
 class Controller {
-    /**
-     * 
-     * @param {FirebaseFirestore.Firestore} store 
-     */
-    constructor(store) {
-        this.postProvider = providers.postProvider(store);
-    }
-
     /**
      * @description sets up cache control rules for response
      * @param {Response} response 
@@ -94,45 +84,37 @@ class Controller {
     news(response) {
         console.log("running news page");
 
-        this.postProvider.getPosts(10).then(posts => {
-            console.log("rendering result to html");
-            return response.render("posts", { 
-                posts,
-                meta: {
-                    title: "News",
-                    description: "Bradley Gunn News",
-                    image: "https://drive.google.com/uc?export=view&id=1I_kymQQQ0w7uhNrN9ZITwyJc1Bl5Zwc3"
-                }
-            });
-        }).catch(error => {
-            return response.status(500).send(error);
+        console.log("setting cache rules")
+        this.setResponseCacheControl(response, true, 86400, 604800);
+        
+        console.log("rendering result to html");
+        return response.render("posts", {
+            meta: {
+                title: "News",
+                description: "Bradley Gunn News",
+                image: "https://drive.google.com/uc?export=view&id=1I_kymQQQ0w7uhNrN9ZITwyJc1Bl5Zwc3"
+            }
         });
     }
 
     newsPost(response, postId) {
         console.log(`running news post page for postId: ${postId}`);
 
-        this.postProvider.getPost(postId).then(post => {
-            console.log("rendering result to html");
-            return response.render("post", { 
-                post,
-                meta: {
-                    title: post.Title,
-                    description: "Bradley Gunn News",
-                    image: "https://drive.google.com/uc?export=view&id=1I_kymQQQ0w7uhNrN9ZITwyJc1Bl5Zwc3"
-                }
-            });
-        }).catch(error => {
-            console.log(error);
-            return response.status(404).send(error);
+        console.log("rendering result to html");
+        return response.render("post", { 
+            postId,
+            meta: {
+                title: "News",
+                description: "Bradley Gunn News",
+                image: "https://drive.google.com/uc?export=view&id=1I_kymQQQ0w7uhNrN9ZITwyJc1Bl5Zwc3"
+            }
         });
     }
 }
 
 /**
- * @param {FirebaseFirestore.Firestore} store
  * @returns {Controller} controller
  */
-exports.controller = function(store) {
-    return new Controller(store);
+exports.controller = function() {
+    return new Controller();
 }
