@@ -1,9 +1,4 @@
 class Controller {
-    constructor(resolver, provider) {
-        this.resolver = resolver;
-        this.provider = provider;
-    }
-
     /**
      * @description sets up cache control rules for response
      * @param {Response} response 
@@ -88,41 +83,31 @@ class Controller {
      */
     news(response) {
         console.log("running news page");
-        const providerArg = function(p) { return { provider: p } }(this.provider);
 
-        console.log(`parsing ${providerArg.provider} to resolver`);
-
-        this.resolver.Query.posts(null, null, providerArg, null).then(posts => {
-            console.log("rendering result to html");
-            return response.render("posts", { 
-                posts,
-                meta: {
-                    title: "News",
-                    description: "Bradley Gunn News",
-                    image: "https://drive.google.com/uc?export=view&id=1I_kymQQQ0w7uhNrN9ZITwyJc1Bl5Zwc3"
-                }
-            });
-        }).catch(error => {
-            return response.status(500).send(error);
+        console.log("setting cache rules")
+        this.setResponseCacheControl(response, true, 86400, 604800);
+        
+        console.log("rendering result to html");
+        return response.render("posts", {
+            meta: {
+                title: "News",
+                description: "Bradley Gunn News",
+                image: "https://drive.google.com/uc?export=view&id=1I_kymQQQ0w7uhNrN9ZITwyJc1Bl5Zwc3"
+            }
         });
     }
 
     newsPost(response, postId) {
         console.log(`running news post page for postId: ${postId}`);
-        const providerArg = function(p) { return { p } }(this.provider);
 
-        this.resolver.Query.postId(null, { postId }, providerArg, null).then(post => {
-            console.log("rendering result to html");
-            return response.render("posts", { 
-                post,
-                meta: {
-                    title: post.Title,
-                    description: "Bradley Gunn News",
-                    image: "https://drive.google.com/uc?export=view&id=1I_kymQQQ0w7uhNrN9ZITwyJc1Bl5Zwc3"
-                }
-            });
-        }).catch(error => {
-            return response.status(500).send(error);
+        console.log("rendering result to html");
+        return response.render("post", { 
+            postId,
+            meta: {
+                title: "News",
+                description: "Bradley Gunn News",
+                image: "https://drive.google.com/uc?export=view&id=1I_kymQQQ0w7uhNrN9ZITwyJc1Bl5Zwc3"
+            }
         });
     }
 }
@@ -130,6 +115,6 @@ class Controller {
 /**
  * @returns {Controller} controller
  */
-exports.controller = function(resolver, provider) {
-    return new Controller(resolver, provider);
+exports.controller = function() {
+    return new Controller();
 }
